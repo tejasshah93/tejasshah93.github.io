@@ -3,7 +3,7 @@
     {
         "title": "Hello World!",
         "category": "",
-        "url": "/2013/07/15/hello-world.html",
+        "url": "http://tejasshah93.github.io/2013/07/15/hello-world.html",
         "date": "2013-07-15 00:00:00 +0530",
         "shortdate": "July 15, 2013"
     } , 
@@ -11,7 +11,7 @@
     {
         "title": "Scribble, a Jekyll theme",
         "category": "",
-        "url": "/2013/05/06/scribble-the-jekyll-theme.html",
+        "url": "http://tejasshah93.github.io/2013/05/06/scribble-the-jekyll-theme.html",
         "date": "2013-05-06 21:57:31 +0530",
         "shortdate": "May 06, 2013"
     } , 
@@ -19,7 +19,7 @@
     {
         "title": "Placeholder post",
         "category": "",
-        "url": "/2013/05/06/more-post.html",
+        "url": "http://tejasshah93.github.io/2013/05/06/more-post.html",
         "date": "2013-05-06 20:57:31 +0530",
         "shortdate": "May 06, 2013"
     } 
