@@ -2,7 +2,7 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
     <head>
     <meta charset="utf-8">
-    <title>Archive &mdash; IDI GSoC'14</title>
+    <title>Pre-Coding phase & Week 1 &mdash; IDI GSoC'14</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,63 +15,19 @@
     <meta name="twitter:site" content="sh_tejas_sh">
 
     
-    <meta property="og:title" content="Archive">
+    <meta property="og:title" content="Pre-Coding phase & Week 1">
     
-    <meta name="description" content="
-  
-    
-    
-
-
-
-    
-    
-        Jun 02, 2014 &mdash; Week 2
-    
-    
-    
-        May 25, 2014 &mdash; Pre-Coding phase & Week 1
-    
-    
-    
-        Apr 21, 2014 &mdash; GSoC14 announcement
+    <meta name="description" content="Pre-Coding phase & Week 1 May 25, 2014 Getting started Now that our project target is set of extending the current implementation of AChecker to...">
+    <meta name="og:description" content="Pre-Coding phase & Week 1 May 25, 2014 Getting started Now that our project target is set of extending the current implementation of AChecker to...">
     
     
 
-
-
-">
-    <meta name="og:description" content="
-  
-    
-    
-
-
-
-    
-    
-        Jun 02, 2014 &mdash; Week 2
-    
-    
-    
-        May 25, 2014 &mdash; Pre-Coding phase & Week 1
-    
-    
-    
-        Apr 21, 2014 &mdash; GSoC14 announcement
-    
-    
-
-
-
-">
-    
-    
-
-    <meta property="og:url" content="http://tejasshah93.github.io//archive/">
+    <meta property="og:url" content="http://tejasshah93.github.io//2014/05/25/week1.html">
     <meta property="og:site_name" content="IDI GSoC'14">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="en_GB" />
+    
+    <meta property="article:published_time" content="2014-05-25">
     
     <!-- Add custom CSS here -->
     <link href="http://tejasshah93.github.io/assets/css/font-awesome.min.css" rel="stylesheet">        
@@ -91,34 +47,70 @@
         <header>
             <h1 class="logo" id="blog-title"><a href="http://tejasshah93.github.io">IDI GSoC'14</a></h1>
             <ul class="navigation">        
-                <li><a href="http://tejasshah93.github.io/archive/"class="active" title="Archived articles">Archive</a></li>
+                <li><a href="http://tejasshah93.github.io/archive/" title="Archived articles">Archive</a></li>
                 <li><a href="http://tejasshah93.github.io/about/">About me</a></li>
             </ul>
         </header>                 
 
         <div class="content">
-  <img src="/res/archive.png" width="64" height="64" align="right" alt="archive">
-<p>    
-    <input class="dosearch" type="text" name="q" id="cse-search-field" placeholder="Search..." />
-</p>
+    <div class="post single">
+        
+        <h1>Pre-Coding phase & Week 1</h1>
+        <info datetime="2014-05-25">
+            May 25, 2014
+        </info>
+        
+        <div class="body"><h3>Getting started</h3>
+
+<p>Now that our project target is set of extending the current implementation of AChecker to validate dynamic HTML/DOM pages, it was the next
+immediate priority to get familiar with the current static implementation of AChecker.  </p>
+
+<hr>
+
+<h3>Gist of Code Base absorbed</h3>
+
+<p>Basically, this week comprised mainly of going through major and critical parts of the codebase as well as the documentation given at <code>AChecker/documentation</code>.  </p>
+
+<p>Some of the major parts covered through are:</p>
 
 <ul>
-    
-    <li>
-        Jun 02, 2014 &mdash; <a href="/2014/06/02/week2.html">Week 2</a>
-    </li>
-    
-    <li>
-        May 25, 2014 &mdash; <a href="/2014/05/25/week1.html">Pre-Coding phase & Week 1</a>
-    </li>
-    
-    <li>
-        Apr 21, 2014 &mdash; <a href="/2014/04/21/announcements.html">GSoC14 announcement</a>
-    </li>
-    
+<li>Guidelines (Creating and Reviewing them)</li>
+<li>Checks (Creating and Editing Checks)<br>
+
+<ul>
+<li>These checks are performed to validate the check according to the guideline mentioned. The class BasicFunctions API provided was gone through 
+completely and understood.</li>
+</ul></li>
+<li>Initialization of AChecker when it starts, loading configuration, database connection, loading constants, initializing session and user session</li>
+<li>In addition to this, a couple days of some other files and their inherited PHPs.</li>
 </ul>
 
+<p>Not mentioning much about the code snippets gone through here, because its pretty much the giant codebase, however, I&#39;ve got myself a basic gist oof what magic AChecker does behind the curtains. Also there are some here and there&#39;s about the code which I still need to resolve, but in due time they will be overcomed mostly.</p>
+
+<p>Well, as its said, the codebase understanding gets on better and better after every revision you go through. Yes, sure thing! I plan to go on
+further everytime to get a more better hold on the core parts of the code.  </p>
+
+<hr>
+
+<h3>About the Library to be used</h3>
+
+<p>As mentioned, I`m in touch with the Jasmine library, its usage and utility provided by it. However, during the pre-coding phase, I came to have known Jasmine closely, and a discussion regarding it with the mentor seems apt at this point.  </p>
+
+<p>Framework, structure and plan for implementation to boil down next week, stay tuned! :)</p>
+
+<hr>
 </div>
+        <!-- <div class="breaker"></div> -->
+        <div class="breaker"></div>        
+    </div>  
+
+    <div class="comments container">
+        <div id="disqus_thread"></div>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</div>
+
 
 
         

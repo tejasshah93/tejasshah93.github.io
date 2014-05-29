@@ -1,27 +1,27 @@
 [
     
     {
-        "title": "Hello World!",
+        "title": "Week 2",
         "category": "",
-        "url": "http://tejasshah93.github.io/2013/07/15/hello-world.html",
-        "date": "2013-07-15 00:00:00 +0530",
-        "shortdate": "July 15, 2013"
+        "url": "http://tejasshah93.github.io/2014/06/02/week2.html",
+        "date": "2014-06-02 21:57:31 +0530",
+        "shortdate": "June 02, 2014"
     } , 
     
     {
-        "title": "Scribble, a Jekyll theme",
+        "title": "Pre-Coding phase &amp; Week 1",
         "category": "",
-        "url": "http://tejasshah93.github.io/2013/05/06/scribble-the-jekyll-theme.html",
-        "date": "2013-05-06 21:57:31 +0530",
-        "shortdate": "May 06, 2013"
+        "url": "http://tejasshah93.github.io/2014/05/25/week1.html",
+        "date": "2014-05-25 21:57:31 +0530",
+        "shortdate": "May 25, 2014"
     } , 
     
     {
-        "title": "Placeholder post",
+        "title": "GSoC14 announcement",
         "category": "",
-        "url": "http://tejasshah93.github.io/2013/05/06/more-post.html",
-        "date": "2013-05-06 20:57:31 +0530",
-        "shortdate": "May 06, 2013"
+        "url": "http://tejasshah93.github.io/2014/04/21/announcements.html",
+        "date": "2014-04-21 20:57:31 +0530",
+        "shortdate": "April 21, 2014"
     } 
     
 ]
