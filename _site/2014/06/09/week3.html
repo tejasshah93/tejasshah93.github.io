@@ -2,7 +2,7 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
     <head>
     <meta charset="utf-8">
-    <title>Week 2 &mdash; IDI GSoC'14</title>
+    <title>Week 3 &mdash; IDI GSoC'14</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,19 +15,19 @@
     <meta name="twitter:site" content="sh_tejas_sh">
 
     
-    <meta property="og:title" content="Week 2">
+    <meta property="og:title" content="Week 3">
     
-    <meta name="description" content="Week 2 Jun 02, 2014 Planning of AChecker architecture for dynamic testing Clearing the fog Well, as discussed first, we were about to inculcate dynamic...">
-    <meta name="og:description" content="Week 2 Jun 02, 2014 Planning of AChecker architecture for dynamic testing Clearing the fog Well, as discussed first, we were about to inculcate dynamic...">
+    <meta name="description" content="Week 3 Jun 09, 2014 Implementation Part As discussed last week, we headed on towards identifying and triggering such events that modify DOM using PhantomJS...">
+    <meta name="og:description" content="Week 3 Jun 09, 2014 Implementation Part As discussed last week, we headed on towards identifying and triggering such events that modify DOM using PhantomJS...">
     
     
 
-    <meta property="og:url" content="http://tejasshah93.github.io//2014/06/02/week2.html">
+    <meta property="og:url" content="http://tejasshah93.github.io//2014/06/09/week3.html">
     <meta property="og:site_name" content="IDI GSoC'14">
     <meta property="og:type" content="article">
     <meta property="og:locale" content="en_GB" />
     
-    <meta property="article:published_time" content="2014-06-02">
+    <meta property="article:published_time" content="2014-06-09">
     
     <!-- Add custom CSS here -->
     <link href="http://tejasshah93.github.io/assets/css/font-awesome.min.css" rel="stylesheet">        
@@ -55,64 +55,34 @@
         <div class="content">
     <div class="post single">
         
-        <h1>Week 2</h1>
-        <info datetime="2014-06-02">
-            Jun 02, 2014
+        <h1>Week 3</h1>
+        <info datetime="2014-06-09">
+            Jun 09, 2014
         </info>
         
-        <div class="body"><h3>Planning of AChecker architecture for dynamic testing</h3>
+        <div class="body"><h3>Implementation Part</h3>
+
+<p>As discussed last week, we headed on towards identifying and triggering such events that modify DOM using PhantomJS library for headless browsers.
+Also, prioritizing accessibility issues, first we focus on form validations and &quot;on****()&quot; JavaScript events.</p>
 
 <hr>
 
-<h1>Clearing the fog</h1>
+<h1>Gist of work done</h1>
 
-<p>Well, as discussed first, we were about to inculcate dynamic testing into AChecker using Jasmine library.
-However, Jasmine Library not needed really. Its for regression testing..
-i.e. when we write basically some of the javascript functions for ourselves, we can have testing over them using Jasmine</p>
+<p>This week mostly went with familiarizing more and more with <a href="http://phantomjs.org/">PhantomJS</a> library and along side implementing the required. Targeting form validation first, this is what I&#39;ve been trying and getting around: <a href="https://github.com/tejasshah93/gsoc-code/blob/master/code/phantomJS/formValidation.js">Form Validation</a></p>
 
-<p>Instead, PhantomJS seems to be promising for running headless browser and extracting elements that modify DOM and trigger them. </p>
+<p>Basically, it invokes a headless phantom browser and gets all the forms within a given URL. What we do now is submit each of them without filling anything.</p>
+
+<p>Crucial and important assumption is, yes, we assume that submitting an empty form will summon most errors within it. This takes us to the newly generated HTML or in other sense, dynamically obtained content from form validation.  </p>
+
+<p>Our task, to validate this newly obtained via AChecker.
+Seems simple here on, right? :)</p>
 
 <hr>
 
-<h1>Now, what we do and how</h1>
+<p>Well, guess some things are meant to be developed for us! :) I&#39;m trying to design a new timeline accordingly for this project which would suffice the implementation part and integrating with AChecker and so on..</p>
 
-<ul>
-<li><p>JavaScript(using jQuery) functions and other libraries to detect the events that trigger DOM events</p>
-
-<ul>
-<li>The main task here: To identify the snippets in the code that modify DOM</li>
-</ul></li>
-<li><p>Perform such triggers of events and get the new HTML</p>
-
-<ul>
-<li>Either get the difference between the new HTML and the old HTML and pass it on to the AChecker Paste HTML Markup function
-Or</li>
-<li>Again pass this newly obtained HTML for AChecker validation and get the union of the results obtained. 
-Thus, the final result of AChecker will be validation of all such pages, and not a single one</li>
-</ul></li>
-<li><p>However, the above task requires the site to be opened and events to be triggered. For this, we need a headless browser (a browser framework without the actual UI which renders the JavaScripts and is able to modify DOM). Thus, for this task, we use <a href="http://phantomjs.org/">PhantomJS</a></p></li>
-</ul>
-
-<p>E.g.:
-Consider https://github.com/join (Signout from account if signed in)
-You’ll get a form for signup.. Without filling any information click on ‘Create an Account’. The HTML page gets modified
-Have a look at <a href="http://pastebin.com/kcz1imkT">this paste</a></p>
-
-<p>Here’s the basic diff between them: <a href="https://drive.google.com/file/d/0B-vo8lHXnnzkcnFLeFhKRnAwdFU/edit?usp=sharing">Link to Image</a></p>
-
-<p><img src="https://drive.google.com/file/d/0B-vo8lHXnnzkcnFLeFhKRnAwdFU/edit?usp=sharing" alt="Github Join HTML Difference Image">
-(Inline images Appears to be broken in this markdown.. So.. ^)</p>
-
-<h3>First things first!</h3>
-
-<p>As disussed with my mentor, we first go step by step by incubating all the vital functionalities
-for e.g. 
-    - form validation is one of the most important to review for accessbility issues
-    - all the DOM triggering events like &quot;onClick()&quot; and all such &quot;on****()&quot; needs to be tackled thereafter</p>
-
-<p>Thats all for now then.</p>
-
-<p>@Stay Tuned! Implementation phase coming through next week!</p>
+<p>@Stay Tuned! As time passes, the more exciting it gets ;)</p>
 </div>
         <!-- <div class="breaker"></div> -->
         <div class="breaker"></div>        

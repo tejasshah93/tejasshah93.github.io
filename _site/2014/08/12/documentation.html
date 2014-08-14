@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+    <head>
+    <meta charset="utf-8">
+    <title>Documentation &mdash; IDI GSoC'14</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href='http://fonts.googleapis.com/css?family=Poly:400,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" media="screen, projection" href="http://tejasshah93.github.io/res/screen.css" type="text/css">
+    <link rel="stylesheet" media="print" href="http://tejasshah93.github.io/res/print.css" type="text/css">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="sh_tejas_sh">
+
+    
+    <meta property="og:title" content="Documentation">
+    
+    <meta name="description" content="Documentation Aug 12, 2014 PROJECT IDEA - Pre-GSoC State of Art: AChecker validates the static html of a web page given as input against the...">
+    <meta name="og:description" content="Documentation Aug 12, 2014 PROJECT IDEA - Pre-GSoC State of Art: AChecker validates the static html of a web page given as input against the...">
+    
+    
+
+    <meta property="og:url" content="http://tejasshah93.github.io//2014/08/12/documentation.html">
+    <meta property="og:site_name" content="IDI GSoC'14">
+    <meta property="og:type" content="article">
+    <meta property="og:locale" content="en_GB" />
+    
+    <meta property="article:published_time" content="2014-08-12">
+    
+    <!-- Add custom CSS here -->
+    <link href="http://tejasshah93.github.io/assets/css/font-awesome.min.css" rel="stylesheet">        
+</head>
+    <body>   
+
+        <!--<div id="wrapper">-->
+        <div class="search-wrapper">
+            <div class="search-form">
+                <input type="text" class="search-field" placeholder="Search...">
+                <i class="fa fa-times icon-remove-sign"></i>
+                <ul class="search-results post-list"></ul><!-- /.search-results -->
+            </div><!-- /.search-form -->
+        </div><!-- ./search-wrapper -->
+
+        <iframe id="sidebar"></iframe>
+        <header>
+            <h1 class="logo" id="blog-title"><a href="http://tejasshah93.github.io">IDI GSoC'14</a></h1>
+            <ul class="navigation">        
+                <li><a href="http://tejasshah93.github.io/archive/" title="Archived articles">Archive</a></li>
+                <li><a href="http://tejasshah93.github.io/about/">About me</a></li>
+            </ul>
+        </header>                 
+
+        <div class="content">
+    <div class="post single">
+        
+        <h1>Documentation</h1>
+        <info datetime="2014-08-12">
+            Aug 12, 2014
+        </info>
+        
+        <div class="body"><h2>PROJECT IDEA</h2>
+
+<h6>- Pre-GSoC State of Art:</h6>
+
+<p>AChecker validates the static html of a web page given as input against the WCAG 2.0 guidelines. Basically it takes the source code of the input URL and validates it according to the specified WCAG accessibility norms.<br/><br/>
+However, some accessibility issues can not be identified just by this static validation. For e.g a lot of HTML elements within a webpage are triggered by Document Object Model (DOM) events which are unaccounted for.</p>
+
+<h6>- Purpose &amp; Scope of the Project:</h6>
+
+<p>The main crux is to improve the checks done by AChecker, by taking the current WCAG 2.0 guidelines implemented as a black box, and extend the current AChecker implementation to validate the dynamically generated Web content too. <br/><br/></p>
+
+<hr>
+
+<h2>DESIGN &amp; ARCHITECTURE</h2>
+
+<p><strong>Aim</strong>: Fetching newly generated dynamically triggered HTML from the webpage upon a certain set of events (triggers) and then validate.<br>
+<br/>
+Basic steps carried out:<br>
+<br/>  </p>
+
+<ul>
+<li>Javascript and jQuery scripts to detect the common events that manipulate DOM and cause generation of new HTML contents.</li>
+<li>Using PhantomJS and CasperJS libraries (discussed in detail below), to push all such events into an array and evaluate each of them.
+
+<ul>
+<li>Thereafter, fetch the new HTML content upon triggering all such dynamic events.</li>
+</ul></li>
+<li>Merge the new HTML contents obtained from each trigger with the original source code (without duplication).</li>
+<li>Pass this newly obtained HTML for AChecker validation and get union of the results obtained. Thus, the final result of AChecker will be validation of all such dynamic events including the default static HTMl source.<br>
+<br/></li>
+</ul>
+
+<p><strong>Crux</strong>: The above task of fetching the dynamically generated new HTML contents requires the site to be opened and an event to be triggered.
+The javascript written in the source of the webpage for a particular event triggered needs to get rendered.   </p>
+
+<h6>- Architectural Requirements</h6>
+
+<p>To accomplish the above said, we need a headless browser Webkit i.e. a browser framework without the actual UI which renders the JavaScripts and is able to modify DOM =&gt; <a href="phantomjs.org">PhantomJS</a><br>
+PhantomJS in itself has DOM handling and jQuery selector functionality. However, to ease the usage of PhantomJS and a better hand at navigation scripting, we use <a href="http://casperjs.org/">CasperJS</a> too. Its basically an utility written for PhantomJS which provides high-level functions for mamipulating DOM and remotely accessing it, the most apt library for this project.  </p>
+
+<p><br/></p>
+
+<p><strong>Setting up the environment</strong>
+<br/>
+<em>For installing PhantomJS:</em>  </p>
+
+<p>Using the native package manager (apt-get for Ubuntu and Debian, pacman for Arch Linux, pkg_add for OpenBSD, etc).  </p>
+
+<p>e.g.: for Ubuntu<br>
+<code>$ sudo apt-get install phantomjs</code><br>
+Click <a href="http://phantomjs.org/download.html">here</a> for more information<br>
+<br/></p>
+
+<p><em>For installing CasperJS:</em><br>
+Using npm:  </p>
+
+<p><code>$ npm install -g casperjs</code>  </p>
+
+<p>Click <a href="http://docs.casperjs.org/en/latest/installation.html">here</a> for detailed instructions and alternative methods<br>
+<br/></p>
+
+<hr>
+
+<h2>IMPLEMENTATION</h2>
+
+<p><strong>Developer Manual</strong>  </p>
+
+<h6>- Detecting events that trigger and manipulate DOM contents</h6>
+
+<p>Basically since CasperJS is an utility framework in Javascript which allows accessing remote DOM, events that manipulate DOM are detected using standard jQuery selectors and the HTML entities are returned back to CasperJS environment.<br>
+<br/>
+To get a gist, following aptly describes the process being carried out<br>
+<img src="http://docs.casperjs.org/en/latest/_images/evaluate-diagram.png" alt="CasperJS framework" title="CasperJS framework"></p>
+
+<p>The <strong>evalute()</strong> function acts as a gate between the CasperJS environment and the webpage opened. Thus, everytime a closure is passed to <strong>evaluate()</strong>, we enter the page and execute code as if using the browser console.  </p>
+
+<p><br/>
+For e.g., let there be a function <strong>getOnClickTriggerElements()</strong>:<br>
+<br/></p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">getOnClickTriggerElements</span><span class="p">(){</span>
+    <span class="cm">/* .. Javascript/jQuery HTML entity selector code here .. */</span>
+    <span class="k">return</span> <span class="nx">onClickTriggerElements</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div>
+<p><br/>
+This function returns a certain set of HTML elements which are capable of manipulating DOM and generating new HTML content:  </p>
+
+<h6>- Evaluating each trigger element separately</h6>
+
+<p>Now the above function is evaluated as:<br>
+<br/></p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="nx">onClickTriggerElements</span> <span class="o">=</span> <span class="nx">casper</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="nx">getOnClickTriggerElements</span><span class="p">);</span>
+</code></pre></div>
+<p><br/>
+Here, <strong>onClickTriggerElements</strong> represents array of HTML entities in CasperJS environment returned from <strong>evaluate()</strong> function. This array contains list of HTML elements which when triggered, manipulate DOM and generate new HTML contents respectively.
+Thus similar functions (such as onClick, input Forms, mouseover and related mouse events, button triggers, etc) are written which fetch such DOM manipulating elements and return them in the form of an array.  </p>
+
+<p>Now that all the trigger elements are returned in an array, all these elements need to be triggered one-by-one and then the newly generated HTML content can be fetched accordingly.<br>
+<br/>
+Following the CasperJS evaluation architecture described above, we trigger each of these elements (using <strong>casper.each()</strong> since each element of the array is to be triggered separately) in the <strong>evaluate()</strong> function and render the respective newly generated HTML content.<br>
+Assumption: Currently, a wait function is used assuming it takes atmost 1 sec to load the DOM after triggering an element. Thereafter, the source code at that particular instant is captured and sent back to CasperJS environment from the <strong>evaluate()</strong> function. For each of the trigger, a HTML file with name <strong><code>data&lt;counter&gt;.html</code></strong> is generated (counter represents no. of such data files) which contains source code of the webpage at the point after triggering an element respectively.<br>
+<br/>
+A sample code snippet for this would seem like:<br>
+<br/></p>
+<div class="highlight"><pre><code class="javascript language-javascript" data-lang="javascript"><span class="c1">// wait for approx. 1000 ms to load the DOM</span>
+<span class="nx">casper</span><span class="p">.</span><span class="nx">wait</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">HTMLSource</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">evaluate</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+            <span class="k">return</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;html&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">outerHTML</span><span class="p">;</span>
+            <span class="p">});</span>
+        <span class="c1">// save the HTMLSource contents into separate files for each of the triggers </span>
+        <span class="p">});</span>
+</code></pre></div>
+<h6>Merge new HTML content generated with original source code (without duplication).</h6>
+
+<p><strong>Crux</strong>: Since in the part discussed above, each of the DOM manipulating element is triggered iteratively, the HTML source code grows incrementally with duplication. Consider following illustration:<br>
+<br/></p>
+
+<p>Say there are 4 trigger elements on a webpage.</p>
+
+<ul>
+<li>Now the <em>data0.html</em> file contains the static source code of the webpage being validated.</li>
+<li>After processing 1st trigger, say some new HTML content gets generated and thus, <em>data1.html</em> contains a snapshot of the source code of the webpage after triggering 1st dynamic element.</li>
+<li>After processing 2nd trigger, <em>data2.html</em> contains source code after triggering 2nd element. However, it also includes the HTML content generated by 1st trigger since this is an iterative process and the HTML/DOM is kept triggering continually.<br>
+
+<ul>
+<li>A fresh reload is not done after every trigger because loading the webpage after every trigger would prove to be costly in terms of time.<br></li>
+</ul></li>
+</ul>
+
+<p><br/>
+Also assuming that the last HTML generated (say <em>dataN.html</em>) would contain all of the newly generated HTML alongwith original source code is not correct since some triggers may overwrite the content written by other.<br>
+<br/>
+<strong>Aim</strong>: Get all the newly generated HTML contents by each of the trigger (Maximization) considering even slightest trigger and merge them.  </p>
+</div>
+        <!-- <div class="breaker"></div> -->
+        <div class="breaker"></div>        
+    </div>  
+
+    <div class="comments container">
+        <div id="disqus_thread"></div>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</div>
+
+
+
+        
+
+        
+        <footer>
+            <p>Powered by Jekyll - <a href="http://github.com/nadjetey/redcup">Redcup</a> Theme</p>
+            <p>
+                <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US" class="cc"><img src="http://tejasshah93.github.io/res/cc-cc.png" class="cc">
+                    <img src="http://tejasshah93.github.io/res/cc-by.png" class="cc"></a>
+                This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons License</a>
+            </p>
+        </footer>
+        
+
+        <!-- Disquss -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'theCarver'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+</script>
+
+        <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+        <script src="http://tejasshah93.github.io/assets/js/jquery-1.10.2.js"></script>
+<script src="http://tejasshah93.github.io/assets/js/simpleJekyllSearch.js"></script>  
+
+<script type="text/javascript">
+    /* Jekyll Simple Search option */
+
+    $(document).ready(function() {
+        $('.search-field').simpleJekyllSearch({
+            jsonFile: 'http://tejasshah93.github.io/search.json',
+            searchResults: '.search-results',
+            template: '<li><a href="{url}"><time datetime="{date}">{shortdate}</time> &mdash; {title}</a></li>',
+            noResults: '<p>Nothing found.</p>'
+        });
+    });
+
+    (function($, window, undefined) {
+
+        var bs = {
+            close: $(".icon-remove-sign"),
+            searchform: $(".search-form"),
+            canvas: $("body"),
+            dothis: $('.dosearch')
+        };
+
+        bs.dothis.on('click', function() {
+            $('.search-wrapper').css({display: "block"});
+            bs.searchform.toggleClass('active');
+            bs.searchform.find('input').focus();
+            bs.canvas.toggleClass('search-overlay');
+        });
+
+        bs.close.on('click', function() {
+            $('.search-wrapper').removeAttr('style');
+            bs.searchform.toggleClass('active');
+            bs.canvas.removeClass('search-overlay');
+        });
+    })(jQuery, window);
+
+    /* page load */
+    (function(f) {
+        var onload = function(f) {
+            if (window.addEventListener) {
+                window.addEventListener('DOMContentLoaded', f, false);
+            } else {
+                window.attachEvent('onload', f);
+            }
+        };
+        onload(function() {
+            f();
+            if (window.addEventListener) {
+                window.addEventListener('resize', f, false);
+            } else {
+                window.attachEvent('resize', f);
+            }
+        });
+    })(function() {
+        var winw = window.innerWidth, w; //, width_thresholds = [680, 780];
+        w = window.__post_grid_width;
+
+        if ((w !== undefined) &&
+                ((w === 680 && winw < 680) ||
+                        (w === 780 && winw >= 680 && winw < 780) ||
+                        (w === 10000 && winw >= 780)
+                        )
+                )
+        {
+            // console.log('noop w:', w+ ', winw:', winw);
+            return;
+        } else {
+            window.__post_grid_width = w =
+                    winw > 780 ? 10000 :
+                    winw > 680 ? 780 :
+                    680;
+            // console.log('op w:', w);
+        }
+
+        var posts = document.getElementById('recent-posts');
+        var child_nodes = posts.childNodes, k, node, h,
+                col_width, col0_y, col1_y, col1_x,
+                origin = {x: 0, y: 0}, node_count = 0, is_col0, row0_max_y;
+
+        posts.style.position = (window.__post_grid_width <= 680) ? null : 'relative';
+
+        for (k in child_nodes) {
+            node = child_nodes[k];
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                if (node.className === 'breaker') {
+                    if (window.__post_grid_width <= 680) {
+                        node.style.height = null;
+                    } else {
+                        node.style.height = (Math.max(col0_y, col1_y) - row0_max_y) + 'px';
+                    }
+                    break;
+                }
+                if (col0_y === undefined) {
+                    origin.x = node.offsetLeft;
+                    origin.y = node.offsetTop;
+                    col_width = node.clientWidth;
+                    col0_y = origin.y + node.clientHeight;
+                    row0_max_y = col0_y;
+                } else {
+                    if (col1_y === undefined) {
+                        col1_y = origin.y + node.clientHeight;
+                        col1_x = origin.x + node.clientWidth;
+                        if (col1_y > row0_max_y) {
+                            row0_max_y = col1_y;
+                        }
+                    } else {
+                        if (window.__post_grid_width <= 680) {
+                            // console.log('Clear');
+                            node.style.position = null;
+                            node.style.width = null;
+                            node.style.left = null;
+                            node.style.top = null;
+                        } else {
+                            is_col0 = (node_count % 2) === 0;
+                            node.style.position = 'absolute';
+                            node.style.width = col_width + 'px';
+                            if (is_col0) {
+                                node.style.left = origin.x + 'px';
+                                node.style.top = col0_y + 'px';
+                                col0_y += node.clientHeight;
+                            } else {
+                                node.style.left = col1_x + 'px';
+                                node.style.top = col1_y + 'px';
+                                col1_y += node.clientHeight;
+                            }
+                        }
+                        // console.dir(node);
+                    }
+                }
+                ++node_count;
+            }
+        }
+
+    });
+</script>
+       
+    </body>
+</html>
