@@ -168,12 +168,15 @@ On getting the URL from the input form, if the URL contains no errors, then a _e
 - Thereafter python script _mergeFiles.py_ is called and _dynamicDOMElements.html_ gets generated with all the dynamic contents merged into one file.
 - After this gets done, a selective merge of this dynamic content and static source code of the webpage is done (using some bash commands). This results in generation of _mergedSourceContent.html_ file now containing the webpage source code merged with dynamic content.
 - Replacing the ```$validate_content``` variable: Thereafter, the content to be validated is read from the above generated file instead of directly taking the static source code from the web and thus is loaded into ```$validate_content``` variable.
-    - With help of some switches, we fetch contents of the _mergedSourceContent.html_ file if the "Show Source" option is enabled in the options menu while validating the URL (i.e. the source code of the webpage to be validated along with dynamic content is to be shown).
+    - With help of some switches, we fetch contents of the _mergedSourceContent.html_ file if the "Show Source" option is enabled in the options menu while validating the URL (i.e. the source code of the webpage to be validated along with dynamic content is to be shown).  
+<br/>
+
+---
 
 ###### Testing
 
 The above implemented has been tested thoroughly on a sample site built for reference and debugging purposes hosted [here](http://web.iiit.ac.in/~tejas.shah/gsoc/casper/sampleMultipleForms.html). The site mentioned is of simplistic form but contains minimal required features for triggering. It contains 4 DOM manipulating events which generate new HTML content. Codebase has been made rigorous enough to tackle such elements within other sites.
-After being completely built, it has been tested against various sites which gives additional known, likely, potential problems accordingly to the HTML content they generate. Results have been discussed and found satisfactory.
+After being completely built, it has been tested against some sites which gives additional known, likely, potential problems accordingly to the HTML content they generate. Results have been discussed and found satisfactory enough.
 
 ###### Screenshots
 SampleHTML validation comparison.. Full image [here](http://web.iiit.ac.in/~tejas.shah/gsoc/screenshots/comparison1.jpg) 
@@ -185,6 +188,27 @@ SampleHTML validation comparison.. Full image [here](http://web.iiit.ac.in/~teja
 Google.com validation comparison.. Full image [here](http://web.iiit.ac.in/~tejas.shah/gsoc/screenshots/comparison2.jpg)  
 
 ![Comparison Google.com](http://web.iiit.ac.in/~tejas.shah/gsoc/screenshots/comparison2.jpg)
+
+---
+
+###### Further work and ToDos
+
+- Currently, this integrated dynamic validating AChecker does not provide a seperate option whether to validate dynamic content or not.
+Thus, since this dynamic validation consumes considerably more time, and also, to report the user as to "where-in" actually the problem validated by AChecker lies, there must be a different section for this. Thus, differentiating the results.
+This was thought as a todo for the project and this idea was given considerable discussion, however due to time constraints it was not accomplished.  
+<br/>
+Also, some problems that were noticed recently are:  
+<br/>
+- While testing a site, say it has 10 DOM manipulating elements. Now if one of them has a input type="submit", (i.e. a form), currently codebase is structured assuming the site would not navigate to another webpage as such and would report some warnings, etc about blank fields then and there itself.  
+However, if it navigates to another site, say on 6th trigger, then further triggers would not run successfully since it was assumed that the webpage would not change (we do not refresh webpage on every trigger => costly). Thus, since the webpage itself got navigated, those remaining triggers would not be evaluated successfully which would miss out some content.
+    - Solution: The verbose log of PhantomJS reports something like this for every navigation:  
+    
+    ```
+    [phantom] Navigation requested: url=<some-url-here>, type=Other, willNavigate=true, isMainFrame=true
+    ```  
+    <br/>
+    Now, our solution would be we place a check on every requested navigation and if the URL where the page is to be navigated is same as the given input URL, then we pass, else we break the navigation. Sounds optimal, and can be implemented.
+<br/>
 
 ###### MISCELLANEOUS
 
